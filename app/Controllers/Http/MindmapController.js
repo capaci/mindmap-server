@@ -2,6 +2,7 @@
 
 const Mindmap = use('App/Models/Mindmap')
 const Node = use('App/Models/Node')
+const Logger = use('Logger')
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
@@ -24,6 +25,9 @@ class MindmapController {
     const mindmaps = Mindmap
       .query()
       .where('user_id', auth.user.id)
+      .with('nodes', (builder) => {
+        builder.where('parent_id', null)
+      })
       .fetch()
 
     return mindmaps
