@@ -46,7 +46,9 @@ class MindmapController {
 
     const mindmap = await Mindmap.create({ ...data, user_id: auth.user.id })
 
-    await Node.create({ mindmap_id: mindmap.id })
+    const node = await Node.create({ mindmap_id: mindmap.id })
+
+    mindmap.nodes = [ node ]
 
     return { mindmap }
   }
